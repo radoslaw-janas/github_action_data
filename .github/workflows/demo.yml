@@ -28,7 +28,7 @@ jobs:
         run: npm ci
       - name: Build website
         run: npm run build
-      - name: Create output
+      - name: Publish Build output
         id: Build_output
         run: echo find dist/assets/*.js -type f -execdir echo 'java_script_file_name={}' >> "$GITHUB_OUTPUT" ';'
       - name: Upload Artifacts
@@ -44,5 +44,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Node build artifact
+      - name: Get Java Script file name from Build step
+        run: echo ${{needs.build.outputs.script-file-name}}
       - name: Deploy
         run: echo "Deploying..."
